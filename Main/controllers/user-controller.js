@@ -1,7 +1,7 @@
 const { User, Thought } = require('../models');
 
 const userController = {
-  // get all users
+  // get users
   async getUsers(req, res) {
     try {
       const dbUserData = await User.find()
@@ -13,7 +13,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // get single user by id
+  // get user by id
   async getSingleUser(req, res) {
     try {
       const dbUserData = await User.findOne({ _id: req.params.userId })
@@ -31,7 +31,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // create a new user
+  // create new user
   async createUser(req, res) {
     try {
       const dbUserData = await User.create(req.body);
@@ -41,7 +41,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // update a user
+  // update user
   async updateUser(req, res) {
     try {
       const dbUserData = await User.findOneAndUpdate(
@@ -65,7 +65,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // delete user (BONUS: and delete associated thoughts)
+  // delete user (BONUS: delete associated thoughts)
   async deleteUser(req, res) {
     try {
       const dbUserData = await User.findOneAndDelete({ _id: req.params.userId })
@@ -74,7 +74,7 @@ const userController = {
         return res.status(404).json({ message: 'No user with this id!' });
       }
 
-      // BONUS: get ids of user's `thoughts` and delete them all
+      // BONUS: get ids of user's `thoughts` and delete
       await Thought.deleteMany({ _id: { $in: dbUserData.thoughts } });
       res.json({ message: 'User and associated thoughts deleted!' });
     } catch (err) {
@@ -83,7 +83,7 @@ const userController = {
     }
   },
 
-  // add friend to friend list
+  // add friend to list
   async addFriend(req, res) {
     try {
       const dbUserData = await User.findOneAndUpdate({ _id: req.params.userId }, { $addToSet: { friends: req.params.friendId } }, { new: true });
@@ -98,7 +98,7 @@ const userController = {
       res.status(500).json(err);
     }
   },
-  // remove friend from friend list
+  // remove friend from list
   async removeFriend(req, res) {
     try {
       const dbUserData = await User.findOneAndUpdate({ _id: req.params.userId }, { $pull: { friends: req.params.friendId } }, { new: true });
