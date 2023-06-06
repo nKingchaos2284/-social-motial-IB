@@ -1,7 +1,7 @@
 const { Thought, User } = require("../models");
 
 const thoughtController = {
-  // get all
+
   async getThoughts(req, res) {
     try {
       const dbThoughtData = await Thought.find().sort({ createdAt: -1 });
@@ -12,7 +12,7 @@ const thoughtController = {
       res.status(500).json(err);
     }
   },
-  // get single thought by id
+
   async getSingleThought(req, res) {
     try {
       const dbThoughtData = await Thought.findOne({
